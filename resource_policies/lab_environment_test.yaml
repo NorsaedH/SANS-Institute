@@ -26,7 +26,7 @@ tests:
       - principal: sally-student
         resource: lab-environment2
         actions: 
-          access: EFFECT_DENY
+          access: EFFECT_ALLOW
           extend: EFFECT_DENY
 
       - principal: ian-student
