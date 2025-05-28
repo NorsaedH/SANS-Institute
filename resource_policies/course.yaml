@@ -1,0 +1,59 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: "default"
+  # Importing `common_roles` in so they can be used in the resource policy.
+  importDerivedRoles:
+    - common_roles
+
+  # This R file is reviewed for when checking permissions when a resource
+  # is of `kind` "course:object"
+  resource: "course"
+
+  rules:
+    - actions: ["view"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+
+    - actions: ["join"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+      condition:
+        match:
+          expr: (now() >= timestamp(R.attr.course_start) && now() < timestamp(R.attr.course_end))
+
+    - actions: ["enroll"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+      condition:
+        match:
+          expr: R.attr.course_type == "public" || P.attr.isVoucherGranted == true
+
+    - actions: ["drop"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+      condition:
+        match:
+          expr: now() < timestamp(R.attr.course_start)
+
+    - actions: ["download_materials"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+      condition:
+        match:
+          expr: now() <= timestamp(R.attr.course_end)
+
+    - actions: ["view", "join", "download_materials"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ASSIGNED_TO_COURSE
+
+    - actions: ["view", "join", "enroll", "drop", "download_materials"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - INTERNAL_ADMIN

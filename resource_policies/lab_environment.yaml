@@ -1,0 +1,37 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: "default"
+  # Importing `common_roles` in so they can be used in the resource policy.
+  importDerivedRoles:
+    - common_roles
+
+  # This R file is reviewed for when checking permissions when a resource
+  # is of `kind` "lab_environment:object"
+  resource: "lab_environment"
+
+  rules:
+    - actions: ["access"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+      condition:
+        match:
+          expr: timestamp(R.attr.lab_starting_date).timeSince() < duration("720h")
+
+    - actions: ["extend"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+      condition:
+        match:
+          expr: P.attr.hasExtended == false
+
+    - actions: ["access", "extend"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ASSIGNED_TO_COURSE
+        - INTERNAL_ADMIN  
+
+
+        

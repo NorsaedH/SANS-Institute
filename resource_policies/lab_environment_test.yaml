@@ -1,0 +1,103 @@
+name: Lab Environment suite
+description: Tests for verifying the lab_environment resource policy
+options:
+  now: '2025-07-03T10:00:00.000Z'
+
+tests:
+  - name: Student Tests
+    input:
+      principals:
+        - sally-student
+        - ian-student
+      resources:
+        - lab-environment1
+        - lab-environment2
+      actions:
+        - access
+        - extend
+
+    expected:
+      - principal: sally-student
+        resource: lab-environment1
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_DENY
+
+      - principal: sally-student
+        resource: lab-environment2
+        actions: 
+          access: EFFECT_DENY
+          extend: EFFECT_DENY
+
+      - principal: ian-student
+        resource: lab-environment1
+        actions: 
+          access: EFFECT_DENY
+          extend: EFFECT_DENY
+
+      - principal: ian-student
+        resource: lab-environment2
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_ALLOW
+
+  - name: Instructor Tests
+    input:
+      principals:
+        - frank-instructor
+        - derek-instructor
+      resources:
+        - lab-environment1
+        - lab-environment2
+      actions:
+        - access
+        - extend
+
+    expected:
+      - principal: frank-instructor
+        resource: lab-environment1
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_ALLOW
+
+      - principal: frank-instructor
+        resource: lab-environment2
+        actions: 
+          access: EFFECT_DENY
+          extend: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: lab-environment1
+        actions: 
+          access: EFFECT_DENY
+          extend: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: lab-environment2
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_ALLOW
+
+  - name: Internal Admin Tests
+    input:
+      principals:
+        - simon-internal-admin
+      resources:
+        - lab-environment1
+        - lab-environment2
+      actions:
+        - access
+        - extend
+
+    expected:
+      - principal: simon-internal-admin
+        resource: lab-environment1
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_ALLOW
+
+      - principal: simon-internal-admin
+        resource: lab-environment2
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_ALLOW

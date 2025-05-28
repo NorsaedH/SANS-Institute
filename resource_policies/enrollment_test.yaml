@@ -1,0 +1,116 @@
+name: Enrollment suite
+description: Tests for verifying the enrollment resource policy
+options:
+  now: '2025-06-02T10:00:00.000Z'
+
+tests:
+  - name: Student Tests
+    input:
+      principals:
+        - sally-student
+        - ian-student
+      resources:
+        - enrollment1
+        - enrollment2
+      actions:
+        - register
+        - deregister
+        - view_access_summary
+
+    expected:
+      - principal: sally-student
+        resource: enrollment1
+        actions: 
+          register: EFFECT_DENY
+          deregister: EFFECT_DENY
+          view_access_summary: EFFECT_ALLOW
+
+      - principal: sally-student
+        resource: enrollment2
+        actions: 
+          register: EFFECT_DENY
+          deregister: EFFECT_DENY
+          view_access_summary: EFFECT_ALLOW
+
+      - principal: ian-student
+        resource: enrollment1
+        actions: 
+          register: EFFECT_DENY
+          deregister: EFFECT_DENY
+          view_access_summary: EFFECT_ALLOW
+
+      - principal: ian-student
+        resource: enrollment2
+        actions: 
+          register: EFFECT_DENY
+          deregister: EFFECT_DENY
+          view_access_summary: EFFECT_ALLOW
+
+  - name: Instructor Tests
+    input:
+      principals:
+        - frank-instructor
+        - derek-instructor
+      resources:
+        - enrollment1
+        - enrollment2
+      actions:
+        - register
+        - deregister
+        - view_access_summary
+
+    expected:
+      - principal: frank-instructor
+        resource: enrollment1
+        actions: 
+          register: EFFECT_DENY
+          deregister: EFFECT_DENY
+          view_access_summary: EFFECT_ALLOW
+
+      - principal: frank-instructor
+        resource: enrollment2
+        actions: 
+          register: EFFECT_DENY
+          deregister: EFFECT_DENY
+          view_access_summary: EFFECT_ALLOW
+
+      - principal: derek-instructor
+        resource: enrollment1
+        actions: 
+          register: EFFECT_DENY
+          deregister: EFFECT_DENY
+          view_access_summary: EFFECT_ALLOW
+
+      - principal: derek-instructor
+        resource: enrollment2
+        actions: 
+          register: EFFECT_DENY
+          deregister: EFFECT_DENY
+          view_access_summary: EFFECT_ALLOW
+
+  - name: Internal Admin Tests
+    input:
+      principals:
+        - simon-internal-admin
+      resources:
+        - enrollment1
+        - enrollment2
+      actions:
+        - register
+        - deregister
+        - view_access_summary
+
+    expected:
+      - principal: simon-internal-admin
+        resource: enrollment1
+        actions: 
+          register: EFFECT_ALLOW
+          deregister: EFFECT_ALLOW
+          view_access_summary: EFFECT_ALLOW
+
+      - principal: simon-internal-admin
+        resource: enrollment2
+        actions: 
+          register: EFFECT_ALLOW
+          deregister: EFFECT_ALLOW
+          view_access_summary: EFFECT_ALLOW

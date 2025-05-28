@@ -1,0 +1,49 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: "default"
+  # Importing `common_roles` in so they can be used in the resource policy.
+  importDerivedRoles:
+    - common_roles
+
+  # This resource file is reviewed for when checking permissions when a resource
+  # is of `kind` "virtual_machine:object"
+  resource: "virtual_machine"
+
+  rules:
+    - actions: ["provision"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+      condition:
+        match:
+          expr: (now().getHours() >= 8 && now().getHours() < 17)
+
+    - actions: ["access"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+        - ASSIGNED_TO_COURSE
+        - INTERNAL_ADMIN
+      condition:
+        match:
+          expr: (R.attr.isProvisioned == true && timestamp(R.attr.vm_starting_date).timeSince() < duration("720h"))
+
+    - actions: ["terminate"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+        - ASSIGNED_TO_COURSE
+      condition:
+        match:
+          expr: now() > timestamp(R.attr.course_end) || now() > timestamp(R.attr.lab_extension)
+
+    - actions: ["provision"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ASSIGNED_TO_COURSE
+
+    - actions: ["provision", "terminate"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - INTERNAL_ADMIN

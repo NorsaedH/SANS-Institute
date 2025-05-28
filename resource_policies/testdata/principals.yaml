@@ -1,0 +1,43 @@
+principals:
+  sally-student:
+    id: sally_student
+    roles:
+    - STUDENT
+    attr:
+      isEnrolled: true
+      enrolled_course_ids: ["course101", "course103"]
+      hasExtended: true
+      isVoucherGranted: true
+      
+  ian-student:
+    id: ian_student
+    roles:
+    - STUDENT
+    attr:
+      isEnrolled: true
+      enrolled_course_ids: ["course102", "course104"]
+      hasExtended: false
+      isVoucherGranted: true
+
+  frank-instructor:
+    id: frank_instructor
+    roles:
+    - INSTRUCTOR
+    attr:
+      assigned_course_ids: ["course101", "course103"]
+
+  derek-instructor:
+    id: derek_instructor
+    roles:
+    - INSTRUCTOR
+    attr:
+      assigned_course_ids: ["course102", "course104"]
+
+  simon-internal-admin:
+    id: simon_internal_admin
+    roles:
+    - ADMIN
+    attr:
+      group: INTERNAL
+
+  

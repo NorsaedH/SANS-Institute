@@ -1,0 +1,103 @@
+name: Cloud Labs suite
+description: Tests for verifying the cloud_labs resource policy
+options:
+  now: '2025-06-02T10:00:00.000Z'
+
+tests:
+  - name: Student Tests
+    input:
+      principals:
+        - sally-student
+        - ian-student
+      resources:
+        - cloud-lab1
+        - cloud-lab2
+      actions:
+        - launch
+        - shutdown
+
+    expected:
+      - principal: sally-student
+        resource: cloud-lab1
+        actions: 
+          launch: EFFECT_ALLOW
+          shutdown: EFFECT_ALLOW
+
+      - principal: sally-student
+        resource: cloud-lab2
+        actions: 
+          launch: EFFECT_DENY
+          shutdown: EFFECT_DENY
+
+      - principal: ian-student
+        resource: cloud-lab1
+        actions: 
+          launch: EFFECT_DENY
+          shutdown: EFFECT_DENY
+
+      - principal: ian-student
+        resource: cloud-lab2
+        actions: 
+          launch: EFFECT_DENY
+          shutdown: EFFECT_DENY
+
+  - name: Instructor Tests
+    input:
+      principals:
+        - frank-instructor
+        - derek-instructor
+      resources:
+        - cloud-lab1
+        - cloud-lab2
+      actions:
+        - launch
+        - shutdown
+
+    expected:
+      - principal: frank-instructor
+        resource: cloud-lab1
+        actions: 
+          launch: EFFECT_ALLOW
+          shutdown: EFFECT_ALLOW
+
+      - principal: frank-instructor
+        resource: cloud-lab2
+        actions: 
+          launch: EFFECT_DENY
+          shutdown: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: cloud-lab1
+        actions: 
+          launch: EFFECT_DENY
+          shutdown: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: cloud-lab2
+        actions: 
+          launch: EFFECT_DENY
+          shutdown: EFFECT_DENY
+
+  - name: Internal Admin Tests
+    input:
+      principals:
+        - simon-internal-admin
+      resources:
+        - cloud-lab1
+        - cloud-lab2
+      actions:
+        - launch
+        - shutdown
+
+    expected:
+      - principal: simon-internal-admin
+        resource: cloud-lab1
+        actions: 
+          launch: EFFECT_ALLOW
+          shutdown: EFFECT_ALLOW
+
+      - principal: simon-internal-admin
+        resource: cloud-lab2
+        actions: 
+          launch: EFFECT_ALLOW
+          shutdown: EFFECT_ALLOW

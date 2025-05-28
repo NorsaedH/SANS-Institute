@@ -1,0 +1,35 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: "default"
+  # Importing `common_roles` in so they can be used in the resource policy.
+  importDerivedRoles:
+    - common_roles
+
+  # This R file is reviewed for when checking permissions when a resource
+  # is of `kind` "cloud_labs:object"
+  resource: "cloud_labs"
+
+  rules:
+    - actions: ["launch"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+        - ASSIGNED_TO_COURSE
+      condition:
+        match:
+          expr: R.attr.manifest_bom_type == "range_v1"
+
+    - actions: ["shutdown"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - ENROLLED_IN_COURSE
+        - ASSIGNED_TO_COURSE
+      condition:
+        match:
+          expr: now() < timestamp(R.attr.expiry_date) && R.attr.manifest_bom_type == "range_v1"
+
+    - actions: ["launch", "shutdown"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - INTERNAL_ADMIN

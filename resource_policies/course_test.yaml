@@ -1,0 +1,142 @@
+name: Course suite
+description: Tests for verifying the course resource policy
+options:
+  now: '2025-06-02T10:00:00.000Z'
+
+tests:
+  - name: Student Tests
+    input:
+      principals:
+        - sally-student
+        - ian-student
+      resources:
+        - course1
+        - course2
+      actions:
+        - view
+        - join
+        - enroll
+        - drop
+        - download_materials
+
+    expected:
+      - principal: sally-student
+        resource: course1
+        actions: 
+          view: EFFECT_ALLOW
+          join: EFFECT_ALLOW
+          enroll: EFFECT_ALLOW
+          drop: EFFECT_DENY
+          download_materials: EFFECT_ALLOW
+
+      - principal: sally-student
+        resource: course2
+        actions: 
+          view: EFFECT_DENY
+          join: EFFECT_DENY
+          enroll: EFFECT_DENY
+          drop: EFFECT_DENY
+          download_materials: EFFECT_DENY
+
+      - principal: ian-student
+        resource: course1
+        actions: 
+          view: EFFECT_DENY
+          join: EFFECT_DENY
+          enroll: EFFECT_DENY
+          drop: EFFECT_DENY
+          download_materials: EFFECT_DENY
+
+      - principal: ian-student
+        resource: course2
+        actions: 
+          view: EFFECT_ALLOW
+          join: EFFECT_ALLOW
+          enroll: EFFECT_ALLOW
+          drop: EFFECT_DENY
+          download_materials: EFFECT_ALLOW
+
+  - name: Instructor Tests
+    input:
+      principals:
+        - frank-instructor
+        - derek-instructor
+      resources:
+        - course1
+        - course2
+      actions:
+        - view
+        - join
+        - enroll
+        - drop
+        - download_materials
+
+    expected:
+      - principal: frank-instructor
+        resource: course1
+        actions: 
+          view: EFFECT_ALLOW
+          join: EFFECT_ALLOW
+          enroll: EFFECT_DENY
+          drop: EFFECT_DENY
+          download_materials: EFFECT_ALLOW
+
+      - principal: frank-instructor
+        resource: course2
+        actions: 
+          view: EFFECT_DENY
+          join: EFFECT_DENY
+          enroll: EFFECT_DENY
+          drop: EFFECT_DENY
+          download_materials: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: course1
+        actions: 
+          view: EFFECT_DENY
+          join: EFFECT_DENY
+          enroll: EFFECT_DENY
+          drop: EFFECT_DENY
+          download_materials: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: course2
+        actions: 
+          view: EFFECT_ALLOW
+          join: EFFECT_ALLOW
+          enroll: EFFECT_DENY
+          drop: EFFECT_DENY
+          download_materials: EFFECT_ALLOW
+
+  - name: Internal Admin Tests
+    input:
+      principals:
+        - simon-internal-admin
+      resources:
+        - course1
+        - course2
+      actions:
+        - view
+        - join
+        - enroll
+        - drop
+        - download_materials
+
+    expected:
+      - principal: simon-internal-admin
+        resource: course1
+        actions: 
+          view: EFFECT_ALLOW
+          join: EFFECT_ALLOW
+          enroll: EFFECT_ALLOW
+          drop: EFFECT_ALLOW
+          download_materials: EFFECT_ALLOW
+
+      - principal: simon-internal-admin
+        resource: course2
+        actions: 
+          view: EFFECT_ALLOW
+          join: EFFECT_ALLOW
+          enroll: EFFECT_ALLOW
+          drop: EFFECT_ALLOW
+          download_materials: EFFECT_ALLOW

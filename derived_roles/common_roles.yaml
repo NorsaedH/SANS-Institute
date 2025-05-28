@@ -1,0 +1,28 @@
+---
+apiVersion: api.cerbos.dev/v1
+description: |-
+  Common dynamic roles used within the SANS Institute Demo app
+derivedRoles:
+  name: common_roles
+
+  definitions:
+    - name: ENROLLED_IN_COURSE
+      parentRoles:
+        - STUDENT
+      condition:
+        match:
+          expr: R.attr.course_id in P.attr.enrolled_course_ids
+
+    - name: ASSIGNED_TO_COURSE
+      parentRoles:
+        - INSTRUCTOR
+      condition:
+        match:
+          expr: R.attr.course_id in P.attr.assigned_course_ids
+
+    - name: INTERNAL_ADMIN
+      parentRoles:
+        - ADMIN
+      condition:
+        match:
+          expr: P.attr.group == "INTERNAL"

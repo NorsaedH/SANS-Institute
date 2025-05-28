@@ -1,0 +1,90 @@
+name: Digital Downloads suite
+description: Tests for verifying the digital_downloads resource policy
+options:
+  now: '2025-06-02T10:00:00.000Z'
+
+tests:
+  - name: Student Tests
+    input:
+      principals:
+        - sally-student
+        - ian-student
+      resources:
+        - digital-download1
+        - digital-download2
+      actions:
+        - download
+
+    expected:
+      - principal: sally-student
+        resource: digital-download1
+        actions: 
+          download: EFFECT_ALLOW
+
+      - principal: sally-student
+        resource: digital-download2
+        actions: 
+          download: EFFECT_DENY
+
+      - principal: ian-student
+        resource: digital-download1
+        actions: 
+          download: EFFECT_DENY
+
+      - principal: ian-student
+        resource: digital-download2
+        actions: 
+          download: EFFECT_DENY
+
+  - name: Instructor Tests
+    input:
+      principals:
+        - frank-instructor
+        - derek-instructor
+      resources:
+        - digital-download1
+        - digital-download2
+      actions:
+        - download
+
+    expected:
+      - principal: frank-instructor
+        resource: digital-download1
+        actions: 
+          download: EFFECT_ALLOW
+
+      - principal: frank-instructor
+        resource: digital-download2
+        actions: 
+          download: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: digital-download1
+        actions: 
+          download: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: digital-download2
+        actions: 
+          download: EFFECT_DENY
+
+  - name: Internal Admin Tests
+    input:
+      principals:
+        - simon-internal-admin
+      resources:
+        - digital-download1
+        - digital-download2
+      actions:
+        - download
+
+    expected:
+      - principal: simon-internal-admin
+        resource: digital-download1
+        actions: 
+          download: EFFECT_ALLOW
+
+      - principal: simon-internal-admin
+        resource: digital-download2
+        actions: 
+          download: EFFECT_ALLOW

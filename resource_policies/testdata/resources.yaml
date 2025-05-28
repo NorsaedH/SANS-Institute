@@ -1,0 +1,120 @@
+resources:
+  course1:
+    id: course1
+    kind: course
+    attr:
+      course_id: course101
+      course_type: public
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+
+  course2:
+    id: course2
+    kind: course
+    attr:
+      course_id: course102
+      course_type: private
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+
+  lab-environment1:
+    id: lab_environment1
+    kind: lab_environment
+    attr:
+      course_id: course101
+      lab_starting_date: '2025-06-21T08:00:00.000Z'
+
+  lab-environment2:
+    id: lab_environment2
+    kind: lab_environment
+    attr:
+      course_id: course102
+      lab_starting_date: '2025-06-21T08:00:00.000Z'
+
+  virtual-machine1:
+    id: virtual_machine1
+    kind: virtual_machine
+    attr:
+      course_id: course101
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+      vm_starting_date: '2025-07-21T08:00:00.000Z'
+      lab_extension: '2026-02-21T11:59:59.000Z'
+      isProvisioned: true
+
+  virtual-machine2:
+    id: virtual_machine2
+    kind: virtual_machine
+    attr:
+      course_id: course102
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+      vm_starting_date: '2025-05-21T08:00:00.000Z'
+      lab_extension: '2026-02-21T11:59:59.000Z'
+      isProvisioned: false
+
+  chatgpt-assist1:
+    id: chatgpt_assist1
+    kind: chatgpt_assist
+    attr:
+      course_id: course101
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+
+  chatgpt-assist2:
+    id: chatgpt_assist1
+    kind: chatgpt_assist
+    attr:
+      course_id: course102
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+
+  cloud-lab1:
+    id: cloud_lab1
+    kind: cloud_labs
+    attr:
+      course_id: course101
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+      expiry_date: '2025-11-21T00:00:00.000Z'
+      manifest_bom_type: range_v1
+
+  cloud-lab2:
+    id: cloud_lab2
+    kind: cloud_labs
+    attr:
+      course_id: course101
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+      expiry_date: '2025-11-21T00:00:00.000Z'
+      manifest_bom_type: range_v2
+
+  digital-download1:
+    id: digital_download1
+    kind: digital_downloads
+    attr:
+      course_id: course101
+      canDownload: true
+      availability_date: '2025-05-21T00:00:00.000Z'
+
+  digital-download2:
+    id: digital_download2
+    kind: digital_downloads
+    attr:
+      course_id: course102
+      canDownload: false
+      availability_date: '2025-07-21T00:00:00.000Z'
+
+  enrollment1:
+    id: enrollment1
+    kind: enrollment
+    attr:
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'
+
+  enrollment2:
+    id: enrollment2
+    kind: enrollment
+    attr:
+      course_start: '2025-05-21T00:00:00.000Z'
+      course_end: '2026-04-21T23:59:59.000Z'

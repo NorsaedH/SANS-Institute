@@ -1,0 +1,116 @@
+name: Virtual Machine suite
+description: Tests for verifying the virtual_machine resource policy
+options:
+  now: '2025-06-02T10:00:00.000Z'
+
+tests:
+  - name: Student Tests
+    input:
+      principals:
+        - sally-student
+        - ian-student
+      resources:
+        - virtual-machine1
+        - virtual-machine2
+      actions:
+        - provision
+        - access
+        - terminate
+
+    expected:
+      - principal: sally-student
+        resource: virtual-machine1
+        actions: 
+          provision: EFFECT_ALLOW
+          access: EFFECT_ALLOW
+          terminate: EFFECT_DENY
+
+      - principal: sally-student
+        resource: virtual-machine2
+        actions: 
+          provision: EFFECT_DENY
+          access: EFFECT_DENY
+          terminate: EFFECT_DENY
+
+      - principal: ian-student
+        resource: virtual-machine1
+        actions: 
+          provision: EFFECT_DENY
+          access: EFFECT_DENY
+          terminate: EFFECT_DENY
+
+      - principal: ian-student
+        resource: virtual-machine2
+        actions: 
+          provision: EFFECT_ALLOW
+          access: EFFECT_DENY
+          terminate: EFFECT_DENY
+
+  - name: Instructor Tests
+    input:
+      principals:
+        - frank-instructor
+        - derek-instructor
+      resources:
+        - virtual-machine1
+        - virtual-machine2
+      actions:
+        - provision
+        - access
+        - terminate
+
+    expected:
+      - principal: frank-instructor
+        resource: virtual-machine1
+        actions: 
+          provision: EFFECT_ALLOW
+          access: EFFECT_ALLOW
+          terminate: EFFECT_DENY
+
+      - principal: frank-instructor
+        resource: virtual-machine2
+        actions: 
+          provision: EFFECT_DENY
+          access: EFFECT_DENY
+          terminate: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: virtual-machine1
+        actions: 
+          provision: EFFECT_DENY
+          access: EFFECT_DENY
+          terminate: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: virtual-machine2
+        actions: 
+          provision: EFFECT_ALLOW
+          access: EFFECT_DENY
+          terminate: EFFECT_DENY
+
+  - name: Internal Admin Tests
+    input:
+      principals:
+        - simon-internal-admin
+      resources:
+        - virtual-machine1
+        - virtual-machine2
+      actions:
+        - provision
+        - access
+        - terminate
+
+    expected:
+      - principal: simon-internal-admin
+        resource: virtual-machine1
+        actions: 
+          provision: EFFECT_ALLOW
+          access: EFFECT_ALLOW
+          terminate: EFFECT_ALLOW
+
+      - principal: simon-internal-admin
+        resource: virtual-machine2
+        actions: 
+          provision: EFFECT_ALLOW
+          access: EFFECT_DENY
+          terminate: EFFECT_ALLOW

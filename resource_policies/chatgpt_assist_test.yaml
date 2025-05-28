@@ -1,0 +1,103 @@
+name: ChatGPT Assist suite
+description: Tests for verifying the chatgpt_assist resource policy
+options:
+  now: '2025-06-02T10:00:00.000Z'
+
+tests:
+  - name: Student Tests
+    input:
+      principals:
+        - sally-student
+        - ian-student
+      resources:
+        - chatgpt-assist1
+        - chatgpt-assist2
+      actions:
+        - access
+        - extend
+
+    expected:
+      - principal: sally-student
+        resource: chatgpt-assist1
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_DENY
+
+      - principal: sally-student
+        resource: chatgpt-assist2
+        actions: 
+          access: EFFECT_DENY
+          extend: EFFECT_DENY
+
+      - principal: ian-student
+        resource: chatgpt-assist1
+        actions: 
+          access: EFFECT_DENY
+          extend: EFFECT_DENY
+
+      - principal: ian-student
+        resource: chatgpt-assist2
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_DENY
+
+  - name: Instructor Tests
+    input:
+      principals:
+        - frank-instructor
+        - derek-instructor
+      resources:
+        - chatgpt-assist1
+        - chatgpt-assist2
+      actions:
+        - access
+        - extend
+
+    expected:
+      - principal: frank-instructor
+        resource: chatgpt-assist1
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_DENY
+
+      - principal: frank-instructor
+        resource: chatgpt-assist2
+        actions: 
+          access: EFFECT_DENY
+          extend: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: chatgpt-assist1
+        actions: 
+          access: EFFECT_DENY
+          extend: EFFECT_DENY
+
+      - principal: derek-instructor
+        resource: chatgpt-assist2
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_DENY
+
+  - name: Internal Admin Tests
+    input:
+      principals:
+        - simon-internal-admin
+      resources:
+        - chatgpt-assist1
+        - chatgpt-assist2
+      actions:
+        - access
+        - extend
+
+    expected:
+      - principal: simon-internal-admin
+        resource: chatgpt-assist1
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_ALLOW
+
+      - principal: simon-internal-admin
+        resource: chatgpt-assist2
+        actions: 
+          access: EFFECT_ALLOW
+          extend: EFFECT_ALLOW
