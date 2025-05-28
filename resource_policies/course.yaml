@@ -12,7 +12,7 @@ resourcePolicy:
 
   rules:
     - actions: ["view"]
-      effect: EFFECT_ALLOW
+      effect: EFFECT_s
       derivedRoles:
         - ENROLLED_IN_COURSE
 
